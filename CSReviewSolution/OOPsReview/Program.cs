@@ -8,8 +8,9 @@ namespace OOPsReview
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main(string[] args)/*this is a semantic*/
         {
+            /*System.Console.WriteLine(); system is a namespace, console is under system, but with the 'using', we can skip typing System.*/
         }
     }
 }
