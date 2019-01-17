@@ -1,2 +1,2 @@
-a new class called Turn()
+0a new class called Turn()
 This class will setup 2 players roll dice and see whos winner, each player has his own die. 
