@@ -12,7 +12,14 @@ namespace OOPsReview
         {
             /*System.Console.WriteLine(); system is a namespace, console is under system, but with the 'using', we can skip typing System.*/
 
-            Die myclass;
+
+            int side;
+            string color;
+
+            Turn game = new Turn(20, "red");
+            game.Result();
+
+            Console.ReadKey();
         }
     }
 }

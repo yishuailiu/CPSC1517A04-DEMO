@@ -129,7 +129,7 @@ namespace OOPsReview
 
         //Greedy Constructor
         //this constructor will allow the user of the class to pass in a set of values which willl be used at the time of instance creation to set the values of the internall datamembers/ auto properties
-        public Die( int side, string color, int facevalue)
+        public Die( int side, string color)
         {
             Side = side;
             Color = color;
