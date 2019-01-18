@@ -131,11 +131,13 @@ namespace OOPsReview
                         case "C":
                             {
                                 //Display the current players' stats
+                                DisplayCurrentPlayerStats(rounds);
                                 break;
                             }
                         case "X":
                             {
                                 //Display the final players' stats
+                                DisplayCurrentPlayerStats(rounds);
                                 Console.WriteLine("\nThank you for playing.");
                                 break;
                             }
@@ -156,7 +158,7 @@ namespace OOPsReview
 
 
         }
-        public static void DisplayCurrentPlayerStats(?????)
+        public static void DisplayCurrentPlayerStats(List<Turn1> rounds)
         {
 
             int wins1 = 0;
@@ -164,7 +166,24 @@ namespace OOPsReview
             int draws = 0;
 
             //travser the List<Turn> to calculate wins, losses, and draws
-
+            foreach (Turn1 item in rounds)
+            {
+                if (item.Player1>item.Player2)
+                {
+                    wins1++;
+                }
+                else
+                {
+                    if (item.Player2 > item.Player1)
+                    {
+                        wins2++;
+                    }
+                    else
+                    {
+                        draws++;
+                    }
+                }
+            }
 
             //display the results
             Console.WriteLine("\n Total Rounds: " + (wins1 + wins2 + draws).ToString());
