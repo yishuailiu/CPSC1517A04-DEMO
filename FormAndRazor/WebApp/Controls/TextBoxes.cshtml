@@ -1,0 +1,43 @@
+﻿@{
+    //these pages process PHYSICALLY from TOP TO BOTTOM
+
+    Layout = "~/_Layout.cshtml";// relative address and absolute address
+    Page.Title = "TextBoxes";
+
+
+    //gather the data from the form
+    //all data will come in as strings
+    //if the .Form field does not exist, null is returned
+    var leftside = Request.Form["leftinput"];
+    var rightside = Request.Form["rightinput"];
+    var thebutton = Request.Form["formbutton"]; //button has a value parameter for identify
+}
+@section head{
+
+    <link href="~/Content/MyCustomStyles.css" rel="stylesheet" />
+}
+@section banner{
+    <h1>TextBoxes for Razor form Samples</h1>
+}
+<!-- content body-->
+    <form id="theform" method="post">
+        <div class="col-md-6">
+            <label for="leftinput">Your Name: </label>
+            <input type="text" id="leftinput" name="leftinput" placeholder="Enter Your Name" value="@leftside" />
+            <button type="submit" id="formbutton" name="formbutton" class="btn" value="leftinput">Press Left</button>
+        </div>
+        <div class="col-md-6">
+            <label for="rightinput">Your Favourite Colour: </label>
+            <input type="text" id="rightinput" name="rightinput" placeholder="Enter Your Colour" value="@rightside"/>
+            <button type="submit" id="formbutton" name="formbutton" class="btn" value="rightinput">Press right</button>
+        </div>
+    </form> 
+
+
+<!--action parameter for form is optional, by default, this form content will stay on the same page; post method carry the data and bring back to the server w/o display it-->
+
+<!-- controll shift B, build -->
+
+@section footer{
+    &copy; CPSC1517 NAIT, all rights reservered
+}
