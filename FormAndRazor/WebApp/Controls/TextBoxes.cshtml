@@ -20,7 +20,43 @@
     <h1>TextBoxes for Razor form Samples</h1>
 }
 <!-- content body-->
-    <form id="theform" method="post">
+@if (IsPost)
+{
+    if (thebutton.Equals("reset"))
+    {
+        leftside = "";
+        rightside = "";
+    }
+    else
+    {
+        //validation of data coming in
+        if (string.IsNullOrEmpty(leftside) || string.IsNullOrEmpty(rightside))
+        {
+            <p>Enter data in both input fields(name and color)</p>
+        }
+        else
+        {
+            if (thebutton.Equals("leftinput"))
+            {
+                <p>Your Name is @leftside .</p>
+            }
+            else
+            {
+                <p>@leftside ,Your color is @rightside .</p>
+            }
+        }
+    }
+
+}
+else
+{
+    <p>this form is in initialization</p>
+}
+
+<!-- bootstrp  has 12 blocks, here, each column use 6 block-->
+<form id="theform" method="post">
+    <div class="row">
+        <!--row class combined the content into a row-->
         <div class="col-md-6">
             <label for="leftinput">Your Name: </label>
             <input type="text" id="leftinput" name="leftinput" placeholder="Enter Your Name" value="@leftside" />
@@ -28,14 +64,19 @@
         </div>
         <div class="col-md-6">
             <label for="rightinput">Your Favourite Colour: </label>
-            <input type="text" id="rightinput" name="rightinput" placeholder="Enter Your Colour" value="@rightside"/>
+            <input type="text" id="rightinput" name="rightinput" placeholder="Enter Your Colour" value="@rightside" />
             <button type="submit" id="formbutton" name="formbutton" class="btn" value="rightinput">Press right</button>
         </div>
-    </form> 
+    </div>
+    <div class="row">
+        <div class="col-md-offset-5">
+            <button type="submit" id="formbutton" name="formbutton" class="btn" value="reset">Reset</button>
+        </div><!--offset to indent centain amount of blocks-->
+    </div>
+</form>
 
 
 <!--action parameter for form is optional, by default, this form content will stay on the same page; post method carry the data and bring back to the server w/o display it-->
-
 <!-- controll shift B, build -->
 
 @section footer{

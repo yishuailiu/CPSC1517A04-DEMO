@@ -1,6 +1,18 @@
 ﻿@{
     Layout = "~/_Layout.cshtml";// relative address and absolute address
     Page.Title = "RadioButtons";
+
+    var language = Request.Form["languagegroup"];
+    var script = Request.Form["scriptgroup"];
+    if (language == null)
+    {
+        language = "";
+    }
+    if (script == null)
+    {
+        script = "";
+    }
+    //these ifs are required for check parameter in the for on the first pass of the page, language and script will be null, .equals does not like nulls 
 }
 @section head{
 
@@ -10,7 +22,55 @@
     <h1>RadioButtons for Razor form Samples</h1>
 }
 
+@if (IsPost)
+{
+    if (string.IsNullOrEmpty(language)||string.IsNullOrEmpty(script))
+    {
+        <p><span style="color:firebrick">Make a choice from both groups</span></p>
+    }
+    else
+    {
+        if (language.Equals("c#"))
+        {
+            <p>You will greatly enjoy CPSC1517 c#.</p>
+        }
+        else
+        {
+            <p>no c# too bad</p>
+        }
+        if (script.Equals("Razor"))
+        {
+            <p>good we use Razor</p>
+        }
+        else
+        {
+            <p>too bad no Razoe</p>
+        }
+    }
+}
+
 <!-- controll shift B, build -->
+<form id="theform" method="post">
+    <div class="col-md-offset-2">
+        <label for="languagegroup">
+            Choose your favourite programing language
+        </label><br />
+        <input type="radio" id="languagegroup" name="languagegroup" value="c#" checked ="@(language.Equals("c#")?true:false)" />&nbsp;&nbsp;&nbsp;c#<br />
+        <input type="radio" id="languagegroup" name="languagegroup" value="aa" checked ="@(language.Equals("a-a-")?true:false)"/>&nbsp;&nbsp;&nbsp;a-a-<br />
+        <input type="radio" id="languagegroup" name="languagegroup" value="bb" checked ="@(language.Equals("b-b-")?true:false)"/>&nbsp;&nbsp;&nbsp;b-b-<br />
+        <input type="radio" id="languagegroup" name="languagegroup" value="cc" checked ="@(language.Equals("c-c-")?true:false)"/>&nbsp;&nbsp;&nbsp;c-c-<br />
+        <input type="radio" id="languagegroup" name="languagegroup" value="dd" checked ="@(language.Equals("d-d-")?true:false)"/>&nbsp;&nbsp;&nbsp;d-d-<br /><br />
+        <label for="scriptgroup">
+            Choose your favourite scripting code
+        </label><br />
+        <input type="radio" id="scriptgroup" name="scriptgroup" value="JS" checked ="@(script.Equals("JS")?true:false)" />&nbsp;&nbsp;&nbsp;Javascript<br />
+        <input type="radio" id="scriptgroup" name="scriptgroup" value="Razor" checked ="@(script.Equals("Razor")?true:false)" />&nbsp;&nbsp;&nbsp;RZ<br />
+        <input type="radio" id="scriptgroup" name="scriptgroup" value="PPP" checked ="@(script.Equals("PPP")?true:false)" />&nbsp;&nbsp;&nbsp;PP<br /><br/>
+        <button type="submit" id="formbutton" name="formbutton" value="submit" class="btn btn-primary">Submit</button>
+      
+    </div>
+</form>
+
 
 @section footer{
     &copy; CPSC1517 NAIT, all rights reservered
