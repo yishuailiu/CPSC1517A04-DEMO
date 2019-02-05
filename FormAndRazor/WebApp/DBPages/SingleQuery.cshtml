@@ -5,6 +5,7 @@
     var searcharg = Request.Form["searcharg"];
     var regionid = "";
     var description = "";
+    var thebutton = Request.Form["formbutton"];
 
     //remeber the 1st pass of the page ,searcharg will be null.  but for the dbquery, it needs to be a number. 
 
@@ -37,11 +38,49 @@
     <h1>Database: Single Query</h1>
 }
 
+@if (IsPost)
+{
+    if (thebutton.Equals("clear"))
+    {
+        regionid = "";
+        description = "";
+        searcharg = "0";
+    }
+    else
+    {
+        //,QuerySingle() uses "== null" to test for no results,(nothing foung)
+        //.Query() uses ".Count() == 0" to test for no results.
+        if (results == null)
+        {
+            //if no reustls, we remove old results first
+            regionid = "";
+            description = "";
+            <p><span style="color:red">There is no region for the supplied region id. </span></p>
+        }
+        else
+        {
+            //there is a record to display
+            //how does one access the data on the record?
+
+            //There are two ways to access a column on your record
+            //a) using an index for the column eg. xxx[index] 
+            //b) using the column title property name eg. xxxx.columnname
+            //you must be concerned with none string datatypes being returns as part of your results.
+            //output fields expect string.
+            //var varaibles obtains  their datatype when first used.
+
+            regionid = results[0].ToString();
+            description = results.RegionDescription;
+        }
+    }
+
+}
+
 <form id="theform" method="post">
     <div class="row">
         <div class="col-md-4">
             <label for="searcharg">Enter Region ID: </label>
-            <input type="text" id="searcharg" name="searcharg" placeholder="enter region ID" value="@searcharg" />
+            <input type="number" id="searcharg" name="searcharg" placeholder="enter region ID" step="1" min="0"  value="@searcharg" />
             <br/>
             <button type="submit" id="formbutton" name="formbutton" class="btn btn-primary" value="search">Search</button>
             &nbsp;&nbsp;
