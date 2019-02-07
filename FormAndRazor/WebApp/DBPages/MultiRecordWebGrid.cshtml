@@ -60,7 +60,11 @@
                               gridinstance.Column(columnName: "ProductName", header: "Product"),
                               gridinstance.Column(columnName: "UnitPrice", header: "Price($)", format: (item) => item.UnitPrice.ToString("0.00")),
                               gridinstance.Column(columnName: "Discontinued", header: "Disc",canSort:false, format:@<input id="Discontinued" name="Discontinued" type="checkbox" value="@item.Discontinued" disabled="disabled" @(item.Discontinued == true ? "checked" : null) />),
-                              gridinstance.Column(columnName: "Date", format: (item) => item.Date.ToString("MMM dd,yyyy"), canSort:false)/*MM = numeric number of month, MMM = short form of month, MMMM = long name of the month*/
+                              gridinstance.Column(columnName: "Date", format: (item) => item.Date.ToString("MMM dd,yyyy"), canSort:false)/*MM = numeric number of month, MMM = short form of month, MMMM = long name of the month*/,
+                              gridinstance.Column(header:"", canSort:false,
+                                format: @<text>
+                                        <a href="~/DBPages/WebGridDestenation.cshtml?pid=@item.ProductID" onclick='return confirm("Are you sure about this? ProductName : @item.ProductName?")'>This a string View</a>
+                                        </text>)
                                     ))
     </div>
 </div>

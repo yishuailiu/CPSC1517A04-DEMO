@@ -1,0 +1,23 @@
+﻿@{
+    Layout = "~/_Layout.cshtml";
+    Page.Title = "WebGridDestenation";
+
+    //access the argument label from the sending page using .QueryString["xxx"]
+    //QueryString returns either null (if argument did not exists) or
+    //   a string value
+    var pid = Request.QueryString["pid"];
+}
+@section head{
+
+    <link href="~/Content/MyCustomStyles.css" rel="stylesheet" />
+}
+@section banner{
+    <h1>WebGrid Destination</h1>
+}
+
+<p>you passed the data value @pid</p>
+@section footer{
+    &copy; CPSC1517 Nait 2019, all rights reserved
+}
+
+
