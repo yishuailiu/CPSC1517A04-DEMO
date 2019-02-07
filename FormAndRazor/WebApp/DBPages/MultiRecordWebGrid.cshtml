@@ -24,7 +24,7 @@
     //this value will be used in titling the WebGrid display
     var categoryname = db.QueryValue(scalarcommand, categoryid);
 
-    var querycommand = "SELECT ProductID, ProductName, UnitPrice, UnitsInStock, Discontinued "
+    var querycommand = "SELECT ProductID, ProductName, UnitPrice, UnitsInStock, Discontinued,GetDate() Date "
                         + "FROM Products "
                         + "WHERE CategoryID = @0 "
                         + "ORDER BY 2";
@@ -54,7 +54,14 @@
         <span style="font-size:x-large"><strong>Products for @categoryname</strong></span>
         <!--Display the WebGrid instance in its a customized display
                 Default webgrid is simply .GetHtml()-->
-        @gridinstance.GetHtml(tableStyle:"table table-bordered table-striped table-hover", mode:WebGridPagerModes.All, firstText:"Start", lastText:"End")
+        @gridinstance.GetHtml(tableStyle:"table table-bordered table-striped table-hover", mode:WebGridPagerModes.All, firstText:"Start", lastText:"End",
+        columns:gridinstance.Columns(
+                                    gridinstance.Column(columnName:"ProductID",header:"ID"),
+                                    gridinstance.Column(columnName:"ProductName",header:"Product"),
+                                    gridinstance.Column(columnName:"UnitPrice",header:"Price($)", format:(item) => item.UnitPrice.ToString("0.00")),
+                                    gridinstance.Column(columnName:"Discontinued", header:"Disc"),
+                                    gridinstance.Column(columnName:"Date",format:(item) => item.Date.ToString("MMM dd,yyyy"))/*MM = numeric number of month, MMM = short form of month, MMMM = long name of the month*/
+                                    ))
     </div>
 </div>
 
