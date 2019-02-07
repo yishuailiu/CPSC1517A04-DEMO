@@ -54,13 +54,13 @@
         <span style="font-size:x-large"><strong>Products for @categoryname</strong></span>
         <!--Display the WebGrid instance in its a customized display
                 Default webgrid is simply .GetHtml()-->
-        @gridinstance.GetHtml(tableStyle:"table table-bordered table-striped table-hover", mode:WebGridPagerModes.All, firstText:"Start", lastText:"End",
-        columns:gridinstance.Columns(
-                                    gridinstance.Column(columnName:"ProductID",header:"ID"),
-                                    gridinstance.Column(columnName:"ProductName",header:"Product"),
-                                    gridinstance.Column(columnName:"UnitPrice",header:"Price($)", format:(item) => item.UnitPrice.ToString("0.00")),
-                                    gridinstance.Column(columnName:"Discontinued", header:"Disc"),
-                                    gridinstance.Column(columnName:"Date",format:(item) => item.Date.ToString("MMM dd,yyyy"))/*MM = numeric number of month, MMM = short form of month, MMMM = long name of the month*/
+        @gridinstance.GetHtml(tableStyle: "table table-bordered table-striped table-hover", mode: WebGridPagerModes.All, firstText: "Start", lastText: "End",
+  columns: gridinstance.Columns(
+                              gridinstance.Column(columnName: "ProductID", header: "ID"),
+                              gridinstance.Column(columnName: "ProductName", header: "Product"),
+                              gridinstance.Column(columnName: "UnitPrice", header: "Price($)", format: (item) => item.UnitPrice.ToString("0.00")),
+                              gridinstance.Column(columnName: "Discontinued", header: "Disc",canSort:false, format:@<input id="Discontinued" name="Discontinued" type="checkbox" value="@item.Discontinued" disabled="disabled" @(item.Discontinued == true ? "checked" : null) />),
+                              gridinstance.Column(columnName: "Date", format: (item) => item.Date.ToString("MMM dd,yyyy"), canSort:false)/*MM = numeric number of month, MMM = short form of month, MMMM = long name of the month*/
                                     ))
     </div>
 </div>
