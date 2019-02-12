@@ -15,6 +15,16 @@
     var selectedcategory = "";
     var discontinued = "";
 
+    var db = Database.Open("NWDB");
+    var catcommand = "SELECT CategoryID, CategoryName "
+                    + "FROM Categories "
+                    + "ORDER BY CategoryName";
+    var catResults = db.Query(catcommand);
+    var supcommand = "SELECT SupplierID, CompanyName "
+                    + "FROM Suppliers "
+                    + "ORDER BY CompanyName";
+    var supResults = db.Query(supcommand);
+
 }
 @section head{
     <link href="~/Content/MyCustomStyles.css" rel="stylesheet" />
@@ -37,79 +47,79 @@
 @if (IsPost)
 {
 
-            if (thebutton.Equals("reset"))
-            {
-                <p class="col-sm-11 text-center">Cleared by user.</p>
-                discontinued = "";
-            }
-            else
-            {
-                //retrieve form input values
-                productname = Request.Form["ProductName"];
-                selectedsupplier = Request.Form["SupplierID"];
-                selectedcategory = Request.Form["CategoryID"];
-                quantityperunit = Request.Form["QuantityPerUnit"];
-                unitprice = Request.Form["UnitPrice"];
-                unitsinstock = Request.Form["UnitsInStock"];
-                unitsonorder = Request.Form["UnitsOnOrder"];
-                reorderlevel = Request.Form["ReorderLevel"];
-                discontinued = Request.Form["Discontinued"];
+    if (thebutton.Equals("reset"))
+    {
+        <p class="col-sm-11 text-center">Cleared by user.</p>
+        discontinued = "";
+    }
+    else
+    {
+        //retrieve form input values
+        productname = Request.Form["ProductName"];
+        selectedsupplier = Request.Form["SupplierID"];
+        selectedcategory = Request.Form["CategoryID"];
+        quantityperunit = Request.Form["QuantityPerUnit"];
+        unitprice = Request.Form["UnitPrice"];
+        unitsinstock = Request.Form["UnitsInStock"];
+        unitsonorder = Request.Form["UnitsOnOrder"];
+        reorderlevel = Request.Form["ReorderLevel"];
+        discontinued = Request.Form["Discontinued"];
 
-                //process incoming data
-                //user friendly error handling
-                try
-                {
-
-
-                    //connect to db
-                    var db = Database.Open("NWDB");
-                    //create sql insert command
-                    //note the number and position of placeholders for each supplied field
+        //process incoming data
+        //user friendly error handling
+        try
+        {
 
 
-                    //code sql command here
-                    var insertcommand = "INSERT INTO PRODUCTS (ProductName, SupplierID, CategoryID, QuantityPerUnit, UnitPrice, UnitsInStock, UnitsOnOrder, ReorderLevel, Discontinued) " +
-                                        "VALUES (@0,@1,@2,@3,@4,@5,@6,@7,@8) ";
+            //connect to db
+
+            //create sql insert command
+            //note the number and position of placeholders for each supplied field
 
 
-                    //execute the insert command
-                    //the method used is the .Execute(command string, list of placeholder variables)
-                    //ternary operator used for nullable fields
-
-                    db.Execute(insertcommand, productname, string.IsNullOrEmpty(selectedsupplier) ? null : selectedsupplier,
-                        string.IsNullOrEmpty(selectedcategory) ? null : selectedcategory,
-                        string.IsNullOrEmpty(quantityperunit) ? null : quantityperunit,
-                        string.IsNullOrEmpty(unitprice) ? null : unitprice,
-                        string.IsNullOrEmpty(unitsinstock) ? null : unitsinstock,
-                        string.IsNullOrEmpty(unitsonorder) ? null : unitsonorder,
-                        string.IsNullOrEmpty(reorderlevel) ? null : reorderlevel,
-                        0);
-               //code execution statement here
+            //code sql command here
+            var insertcommand = "INSERT INTO PRODUCTS (ProductName, SupplierID, CategoryID, QuantityPerUnit, UnitPrice, UnitsInStock, UnitsOnOrder, ReorderLevel, Discontinued) " +
+                                "VALUES (@0,@1,@2,@3,@4,@5,@6,@7,@8) ";
 
 
-                    //use of bootstrap text positioning
-                    //success message
-                    <p class="col-sm-11 text-center">
-                        <span style="color:green">
-                            <strong>
-                                New product added to file.
-                            </strong>
-                        </span>
-                    </p>
-                }
-                catch (Exception ex)
-                {
+            //execute the insert command
+            //the method used is the .Execute(command string, list of placeholder variables)
+            //ternary operator used for nullable fields
 
-                    <p class="col-sm-11 text-center alert alert-danger" >
-                        <span style="color:firebrick">
-                            <strong>
-                                @ex.Message
-                            </strong>
-                        </span>
-                    </p>
-                }   
+            db.Execute(insertcommand, productname, selectedsupplier.Equals("0") ? null : selectedsupplier,
+                selectedcategory.Equals("0") ? null : selectedcategory,
+                string.IsNullOrEmpty(quantityperunit) ? null : quantityperunit,
+                string.IsNullOrEmpty(unitprice) ? null : unitprice,
+                string.IsNullOrEmpty(unitsinstock) ? null : unitsinstock,
+                string.IsNullOrEmpty(unitsonorder) ? null : unitsonorder,
+                string.IsNullOrEmpty(reorderlevel) ? null : reorderlevel,
+                0);
+            //code execution statement here
 
-            }
+
+            //use of bootstrap text positioning
+            //success message
+            <p class="col-sm-11 text-center">
+                <span style="color:green">
+                    <strong>
+                        New product added to file.
+                    </strong>
+                </span>
+            </p>
+        }
+        catch (Exception ex)
+        {
+
+            <p class="col-sm-11 text-center alert alert-danger">
+                <span style="color:firebrick">
+                    <strong>
+                        @ex.Message
+                    </strong>
+                </span>
+            </p>
+        }
+
+    }
 }
 
 <form id="theForm" action="" method="post">
@@ -129,14 +139,50 @@
             <!-- the title attribute creates the tooltip for the control-->
             <input name="ProductName" id="ProductName" type="text" value="@productname"
                    title="Product Name." /><br />
-            <input name="SupplierID" id="SupplierID" type="number" value="@selectedsupplier" 
-                   step="1" min="1"/><br />
-            <input name="CategoryID" id="CategoryID" type="number" value="@selectedcategory" 
-                   step="1" min="1"/><br />
+            <select id="SupplierID" name="SupplierID">
+                <option value="0">select ...</option>
+                <!--  loop code here-->
+                @foreach (var supitem in supResults)
+                {
+                    if (selectedsupplier == supitem[0].ToString())
+                    {
+                        <option value="@supitem[0]" selected>
+                            @supitem[1]
+                        </option>
+                    }
+                    else
+                    {
+                        <option value="@supitem[0]">
+                            @supitem[1]
+                        </option>
+                    }
+
+                }
+            </select><br />
+            <select id="Categoryid" name="CategoryID">
+                <option value="0">select ...</option>
+                <!--  loop code here-->
+                @foreach (var catitem in catResults)
+                {
+                    if (selectedcategory == catitem[0].ToString())
+                    {
+                        <option value="@catitem.CategoryID" selected>
+                            @catitem[1]
+                        </option>
+                    }
+                    else
+                    {
+                        <option value="@catitem.CategoryID">
+                            @catitem[1]
+                        </option>
+                    }
+
+                }
+            </select><br />
             <input name="QuantityPerUnit" id="QuantityPerUnit" type="text"
                    value="@quantityperunit" /><br />
-            <input name="UnitPrice" id="UnitPrice" type="number" value="@unitprice" 
-                   step="0.01" min="0.00"/><br />
+            <input name="UnitPrice" id="UnitPrice" type="number" value="@unitprice"
+                   step="0.01" min="0.00" /><br />
             <input name="UnitsInStock" id="UnitsInStock" type="number" value="@unitsinstock"
                    step="1" min="0" title="Quantity on Hand." /><br />
             <input name="UnitsOnOrder" id="UnitsOnOrder" type="text" value="@unitsonorder"
@@ -163,4 +209,4 @@
 </form>
 @section footer{
     &copy; CPSC1517 Nait, all rights reserved
-    }
+}
