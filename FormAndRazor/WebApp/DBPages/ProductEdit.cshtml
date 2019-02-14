@@ -264,5 +264,14 @@ else //for IsPost during initialization
             <button type="submit" name="theButton" id="theCancel" class="btn btn-primary" value="cancel">Cancel</button>
         </div>
 
+        @*This js will allow for a confirmation dialog to appear when a particular button is pressed(deleted)*@
+
+        <script type="text/javascript">
+            document.getElementById("theDelete").onclick = confirmDelete;
+            function confirmDelete() {                
+                return confirm("Are you sure to delete @productname?");
+            }
+        </script>
+
     </form>
 </div>
