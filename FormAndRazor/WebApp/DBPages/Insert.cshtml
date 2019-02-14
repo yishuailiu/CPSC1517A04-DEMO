@@ -25,6 +25,27 @@
                     + "ORDER BY CompanyName";
     var supResults = db.Query(supcommand);
 
+    //coding of validation controls
+    //validation controls are run on the server side
+    //there is one validation control per input control
+    //validation controls consist of validators
+    //there can be multiple validators inside the validation cntrol
+    //validation controls are linked to the input control via control name
+    //structure of a validator is dependet on the validation of that validator
+    //validators do not execute unless there is data present except for .Required
+
+    Validation.Add("ProductName",Validator.Required("Product Name is required."),Validator.StringLength(40,1,"Product name is limited to 40 characters"));
+    Validation.Add("QuantityPerUnit", Validator.StringLength(20,0,"Quantity per unit is limited to 20 characters"));
+    Validation.Add("UnitPrice", Validator.Range(0.00, double.MaxValue, "UnitPrice can be smaller than 0"));
+    Validation.Add("UnitInStock", Validator.Range(0.00,32767, "UnitInStock between 0 to 32767"),Validator.Integer("Units must be a whole value."));
+    Validation.Add("UnitOnOrder", Validator.Range(0.00, 32767, "UnitInStock between 0 to 32767"), Validator.Integer("Units must be a whole value."));
+    Validation.Add("ReorderLevel", Validator.Range(0.00, 32767, "UnitInStock between 0 to 32767"), Validator.Integer("Units must be a whole value."));
+
+    //password validation
+    Validation.Add("Password", Validator.Required("Password is required"), Validator.EqualsTo("ConfirmPassword", "Password not confirmed"));
+    //pattern matchiming: regular expressions
+    Validation.Add("PostalCode", Validator.Required("PostalCode is required"), Validator.Regex("[A-Za-z][0-9][A-Za-z][0-9][A-Za-z][0-9]","invalid postal code"));
+    //validation occurs against data that will be sent for pro cessing against your database
 }
 @section head{
     <link href="~/Content/MyCustomStyles.css" rel="stylesheet" />
@@ -50,51 +71,62 @@
     if (thebutton.Equals("reset"))
     {
         <p class="col-sm-11 text-center">Cleared by user.</p>
-        discontinued = "";
-    }
-    else
-    {
-        //retrieve form input values
-        productname = Request.Form["ProductName"];
-        selectedsupplier = Request.Form["SupplierID"];
-        selectedcategory = Request.Form["CategoryID"];
-        quantityperunit = Request.Form["QuantityPerUnit"];
-        unitprice = Request.Form["UnitPrice"];
-        unitsinstock = Request.Form["UnitsInStock"];
-        unitsonorder = Request.Form["UnitsOnOrder"];
-        reorderlevel = Request.Form["ReorderLevel"];
-        discontinued = Request.Form["Discontinued"];
-
-        //process incoming data
-        //user friendly error handling
-        try
-        {
+                    discontinued = "";
+                }
+                else
+                {
+                    //retrieve form input values
+                    productname = Request.Form["ProductName"];
+                    selectedsupplier = Request.Form["SupplierID"];
+                    selectedcategory = Request.Form["CategoryID"];
+                    quantityperunit = Request.Form["QuantityPerUnit"];
+                    unitprice = Request.Form["UnitPrice"];
+                    unitsinstock = Request.Form["UnitsInStock"];
+                    unitsonorder = Request.Form["UnitsOnOrder"];
+                    reorderlevel = Request.Form["ReorderLevel"];
+                    discontinued = Request.Form["Discontinued"];
 
 
-            //connect to db
+                    
 
-            //create sql insert command
-            //note the number and position of placeholders for each supplied field
-
-
-            //code sql command here
-            var insertcommand = "INSERT INTO PRODUCTS (ProductName, SupplierID, CategoryID, QuantityPerUnit, UnitPrice, UnitsInStock, UnitsOnOrder, ReorderLevel, Discontinued) " +
-                                "VALUES (@0,@1,@2,@3,@4,@5,@6,@7,@8) ";
+                    if (Validation.IsValid())
+                    {
 
 
-            //execute the insert command
-            //the method used is the .Execute(command string, list of placeholder variables)
-            //ternary operator used for nullable fields
 
-            db.Execute(insertcommand, productname, selectedsupplier.Equals("0") ? null : selectedsupplier,
-                selectedcategory.Equals("0") ? null : selectedcategory,
-                string.IsNullOrEmpty(quantityperunit) ? null : quantityperunit,
-                string.IsNullOrEmpty(unitprice) ? null : unitprice,
-                string.IsNullOrEmpty(unitsinstock) ? null : unitsinstock,
-                string.IsNullOrEmpty(unitsonorder) ? null : unitsonorder,
-                string.IsNullOrEmpty(reorderlevel) ? null : reorderlevel,
-                0);
-            //code execution statement here
+                        //process incoming data
+                        //user friendly error handling
+
+
+
+                        try
+                        {
+
+
+                            //connect to db
+
+                            //create sql insert command
+                            //note the number and position of placeholders for each supplied field
+
+
+                            //code sql command here
+                            var insertcommand = "INSERT INTO PRODUCTS (ProductName, SupplierID, CategoryID, QuantityPerUnit, UnitPrice, UnitsInStock, UnitsOnOrder, ReorderLevel, Discontinued) " +
+                                                "VALUES (@0,@1,@2,@3,@4,@5,@6,@7,@8) ";
+
+
+                            //execute the insert command
+                            //the method used is the .Execute(command string, list of placeholder variables)
+                            //ternary operator used for nullable fields
+
+                            db.Execute(insertcommand, productname, selectedsupplier.Equals("0") ? null : selectedsupplier,
+                                selectedcategory.Equals("0") ? null : selectedcategory,
+                                string.IsNullOrEmpty(quantityperunit) ? null : quantityperunit,
+                                string.IsNullOrEmpty(unitprice) ? null : unitprice,
+                                string.IsNullOrEmpty(unitsinstock) ? null : unitsinstock,
+                                string.IsNullOrEmpty(unitsonorder) ? null : unitsonorder,
+                                string.IsNullOrEmpty(reorderlevel) ? null : reorderlevel,
+                                0);
+                //code execution statement here
 
 
             //use of bootstrap text positioning
@@ -106,9 +138,9 @@
                     </strong>
                 </span>
             </p>
-        }
-        catch (Exception ex)
-        {
+            }
+            catch (Exception ex)
+            {
 
             <p class="col-sm-11 text-center alert alert-danger">
                 <span style="color:firebrick">
@@ -117,11 +149,18 @@
                     </strong>
                 </span>
             </p>
+            }
         }
 
     }
 }
-
+@*There are two ways to display your validation error messages:
+    a) using .ValidationSummary()
+    b) using .ValidationMessage("controlname")
+    
+    a) messges are display by defults as a bulletted list all error messages for the control are display
+    b) message are display where the message display control is phyiscally positioned
+        only the first error message is displayed must be  *@
 <form id="theForm" action="" method="post">
     <div class="row ">
         <div class="col-sm-5 text-right">
@@ -137,62 +176,72 @@
         </div>
         <div class="col-sm-5">
             <!-- the title attribute creates the tooltip for the control-->
-            <input name="ProductName" id="ProductName" type="text" value="@productname"
-                   title="Product Name." /><br />
-            <select id="SupplierID" name="SupplierID">
-                <option value="0">select ...</option>
-                <!--  loop code here-->
-                @foreach (var supitem in supResults)
-                {
-                    if (selectedsupplier == supitem[0].ToString())
-                    {
-                        <option value="@supitem[0]" selected>
-                            @supitem[1]
-                        </option>
-                    }
-                    else
-                    {
-                        <option value="@supitem[0]">
-                            @supitem[1]
-                        </option>
-                    }
+            <input name="ProductName" id="ProductName" type="text" value="@productname" required
+                   title="Product Name." />  @Html.ValidationMessage("ProductName")<br />
 
-                }
-            </select><br />
-            <select id="Categoryid" name="CategoryID">
-                <option value="0">select ...</option>
-                <!--  loop code here-->
-                @foreach (var catitem in catResults)
-                {
-                    if (selectedcategory == catitem[0].ToString())
+                <select id="SupplierID" name="SupplierID">
+                    <option value="0">select ...</option>
+                    <!--  loop code here-->
+                    @foreach (var supitem in supResults)
                     {
-                        <option value="@catitem.CategoryID" selected>
-                            @catitem[1]
-                        </option>
-                    }
-                    else
-                    {
-                        <option value="@catitem.CategoryID">
-                            @catitem[1]
-                        </option>
-                    }
+                        if (selectedsupplier == supitem[0].ToString())
+                        {
+                            <option value="@supitem[0]" selected>
+                                @supitem[1]
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="@supitem[0]">
+                                @supitem[1]
+                            </option>
+                        }
 
-                }
-            </select><br />
-            <input name="QuantityPerUnit" id="QuantityPerUnit" type="text"
-                   value="@quantityperunit" /><br />
-            <input name="UnitPrice" id="UnitPrice" type="number" value="@unitprice"
-                   step="0.01" min="0.00" /><br />
+                    }
+                </select><br />
+                <select id="Categoryid" name="CategoryID">
+                    <option value="0">select ...</option>
+                    <!--  loop code here-->
+                    @foreach (var catitem in catResults)
+                    {
+                        if (selectedcategory == catitem[0].ToString())
+                        {
+                            <option value="@catitem.CategoryID" selected>
+                                @catitem[1]
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="@catitem.CategoryID">
+                                @catitem[1]
+                            </option>
+                        }
+
+                    }
+                </select><br />
+                <input name="QuantityPerUnit" id="QuantityPerUnit" type="text"
+                       value="@quantityperunit" /><br />
+                <input name="UnitPrice" id="UnitPrice" type="text" value="@unitprice" /><br />
+                <input name="UnitsInStock" id="UnitsInStock" type="text" value="@unitsinstock"
+                       title="Quantity on Hand." /><br />
+                <input name="UnitsOnOrder" id="UnitsOnOrder" type="text" value="@unitsonorder"
+                       title="Quantity on Order." /><br />
+                <input name="ReorderLevel" id="ReorderLevel" type="text" value="@reorderlevel"
+                       title="Reorder Level." /><br />
+                @*html5 client side validation*@
+                @*<input name="UnitPrice" id="UnitPrice" type="number" value="@unitprice"
+               step="0.01" min="0.00" /><br />
             <input name="UnitsInStock" id="UnitsInStock" type="number" value="@unitsinstock"
-                   step="1" min="0" title="Quantity on Hand." /><br />
+               step="1" min="0" title="Quantity on Hand." /><br />
             <input name="UnitsOnOrder" id="UnitsOnOrder" type="text" value="@unitsonorder"
-                   step="1" min="0" title="Quantity on Order." /><br />
+               step="1" min="0" title="Quantity on Order." /><br />
             <input name="ReorderLevel" id="ReorderLevel" type="text" value="@reorderlevel"
-                   step="1" min="0" title="Reorder Level." /><br />
-            <input name="Discontinued" id="Discontinued" type="checkbox"
-                   title="Product is discontinued if checked."
-                   @(string.IsNullOrEmpty(discontinued) ? "" : "checked") /><br /><br />
-        </div>
+               step="1" min="0" title="Reorder Level." /><br />*@
+
+                <input name="Discontinued" id="Discontinued" type="checkbox"
+                       title="Product is discontinued if checked."
+                       @(string.IsNullOrEmpty(discontinued) ? "" : "checked") /><br /><br />
+            </div>
     </div>
     <div>
         <div class="col-sm-11 text-center">
@@ -200,8 +249,9 @@
                     class="btn btn-primary" style="width:90px">
                 Add
             </button>&nbsp;&nbsp;
+            @*if you need to override any html5 client side validation, for a button then add the attribute formnovalite to the button*@
             <button type="submit" name="formButton" value="reset"
-                    class="btn " style="width:90px">
+                    class="btn " style="width:90px" formnovalidate>
                 Clear
             </button>
         </div>
