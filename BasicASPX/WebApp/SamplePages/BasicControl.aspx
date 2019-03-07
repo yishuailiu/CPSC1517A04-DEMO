@@ -16,9 +16,9 @@
             <td>
                 <asp:RadioButtonList ID="RadioButtonListChoice" runat="server" RepeatDirection="Horizontal" RepeatLayout="Flow">
                     <asp:ListItem Value="1">Comp1008</asp:ListItem>
-                    <asp:ListItem Value="2">Cpsc1517</asp:ListItem>
-                    <asp:ListItem Value="3">Dmit2018</asp:ListItem>
+                    <asp:ListItem Value="2">Cpsc1517</asp:ListItem>                    
                     <asp:ListItem Value="4">Dmit1508</asp:ListItem>
+                    <asp:ListItem Value="3">Dmit2018</asp:ListItem>
                 </asp:RadioButtonList>
             </td>
         </tr>
