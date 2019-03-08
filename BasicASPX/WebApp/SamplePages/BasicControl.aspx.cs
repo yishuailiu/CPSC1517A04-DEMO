@@ -107,8 +107,28 @@ namespace WebApp.SamplePages
         //  to hang unto the dummy data.
         //if the data is coming from database, we dont need this. 
         public static List<DDLClass> DataCollection;
-        
 
-        
+        protected void listbutton_Click(object sender, EventArgs e)
+        {
+            if (CollectionList.SelectedIndex == 0)
+            {
+                OutputMessage.Text = "Select a course to view";
+            }
+            else
+            {
+                string submitchoice = CollectionList.SelectedValue;
+                TextBoxNumericChoice.Text = submitchoice;
+                RadioButtonListChoice.SelectedValue = submitchoice;
+                DisplayReadOnly.Text = CollectionList.SelectedItem.Text + " at index " + CollectionList.SelectedIndex + "has a value of " + CollectionList.SelectedValue;
+                if (submitchoice.Equals("2") || submitchoice.Equals("3"))
+                {
+                    CheckBoxChoice.Checked = true;
+                }
+                else
+                {
+                    CheckBoxChoice.Checked = false;
+                }
+            }
+        }
     }
 }
