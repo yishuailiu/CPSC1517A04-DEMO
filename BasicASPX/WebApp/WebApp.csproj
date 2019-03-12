@@ -226,6 +226,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="GridViewCollection.cs" />
+    <Compile Include="Entry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SamplePages\BasicControl.aspx.cs">
       <DependentUpon>BasicControl.aspx</DependentUpon>

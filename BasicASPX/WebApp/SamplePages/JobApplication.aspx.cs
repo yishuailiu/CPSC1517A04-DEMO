@@ -38,7 +38,9 @@ namespace WebApp.SamplePages
             gvCollection.Add(new GridViewCollection(fullname, emailaddress, phonenumber, fullorparttime, jobs));
 
             //display the colleced gridview data records
+
             JobApplicantsList.DataSource = gvCollection;
+            JobApplicantsList.DataBind();
         }
 
         protected void Clear_Click(object sender, EventArgs e)

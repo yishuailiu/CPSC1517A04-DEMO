@@ -16,10 +16,24 @@
 
         </div>
     </div>
-  
+    <asp:RequiredFieldValidator ID="RequiredFieldFirstName" runat="server" ErrorMessage="First Name is required" Display="None" SetFocusOnError="true" ControlToValidate="FirstName" ForeColor="Firebrick"></asp:RequiredFieldValidator>
+    <asp:RequiredFieldValidator ID="RequiredFieldLastName" runat="server" ErrorMessage="First Name is required" Display="None" SetFocusOnError="true" ControlToValidate="LastName" ForeColor="Firebrick"></asp:RequiredFieldValidator>
+    <asp:RequiredFieldValidator ID="RequiredFieldStreetAddress1" runat="server" ErrorMessage="StreetAddress1 is required" Display="None" SetFocusOnError="true" ControlToValidate="StreetAddress1" ForeColor="Firebrick"></asp:RequiredFieldValidator>
+    <asp:RequiredFieldValidator ID="RequiredFieldCity" runat="server" ErrorMessage="City is required" Display="None" SetFocusOnError="true" ControlToValidate="City" ForeColor="Firebrick"></asp:RequiredFieldValidator>
+    <asp:RequiredFieldValidator ID="RequiredFieldPostalCode" runat="server" ErrorMessage="PostalCode is required" Display="None" SetFocusOnError="true" ControlToValidate="PostalCode" ForeColor="Firebrick"></asp:RequiredFieldValidator>
+    <asp:RequiredFieldValidator ID="RequiredFieldEmailAddress" runat="server" ErrorMessage="EmailAddress is required" Display="None" SetFocusOnError="true" ControlToValidate="EmailAddress" ForeColor="Firebrick"></asp:RequiredFieldValidator>
+    <asp:RequiredFieldValidator ID="RequiredFieldCheckAnswer" runat="server" ErrorMessage="Please supplier an answer to CheckAnswer" Display="None" SetFocusOnError="true" ControlToValidate="CheckAnswer" ForeColor="Firebrick"></asp:RequiredFieldValidator>
+    
+    <asp:RangeValidator ID="DemoStreetAddress2" runat="server" ControlToValidate="StreetAddress2" Display="None" ErrorMessage="Rangetest simulate" MaximumValue="5" MinimumValue="1" Type="Double"></asp:RangeValidator>
+    <asp:RegularExpressionValidator ID="RegularExpressionPostalCode" ControlToValidate="PostalCode" runat="server" Display="None" SetFocusOnError="true" ForeColor="Firebrick" ErrorMessage="Postal Code must be in right expression" ValidationExpression="[a-zA-Z][0-9][a-zA-Z][0-9][a-zA-Z][0-9]"></asp:RegularExpressionValidator>
+    <asp:CompareValidator ID="CompareEmailAddress" runat="server" Operator="DataTypeCheck" ControlToValidate="EmailAddress" Display="None" Type="String" ErrorMessage="CompareValidatoemailr"></asp:CompareValidator>
+    <asp:CompareValidator ID="CompareCheckAnswer" runat="server" Operator="Equal" ControlToValidate="CheckAnswer" Display="None" Type="Integer" ErrorMessage="incorrect check answer(15)" ValueToCompare="15"></asp:CompareValidator>
+<%--    <asp:CompareValidator ID="ComparePasswerd" runat="server" Operator="Equal" ControlToValidate="ConfirmPassword" Display="None" Type="String" ErrorMessage="Does not match password" SetFocusOnError="True" ControlToCompare="Password"></asp:CompareValidator>--%>
+    <%-- validation summar control --%>
+    <asp:ValidationSummary ID="ValidationSummaryControl" HeaderText="Error Message" runat="server" />
     <div class="row">
         <div class ="col-md-6">
-            <fieldset class="form-horizontal">
+            <fieldset class="form-horizontal" type="Double">
                 <legend>Application Form</legend>
 
                 <asp:Label ID="Label1" runat="server" Text="First Name"
@@ -85,11 +99,14 @@
         <div class="col-md-6">   
             <div class="col-md-offset-2">
                 <p>
-                    <asp:Button ID="Submit" runat="server" Text="Submit" />&nbsp;&nbsp;
-                    <asp:Button ID="Clear" runat="server" Text="Clear" CausesValidation="true"  />
+                    <asp:Button ID="Submit" runat="server" Text="Submit" OnClick="Submit_Click" />&nbsp;&nbsp;
+                    <asp:Button ID="Clear" runat="server" Text="Clear" CausesValidation="true" OnClick="Clear_Click"  />
                 </p>
                 <asp:Label ID="Message" runat="server" ></asp:Label><br />
-            
+                
+                <br />
+                <hr style="width=5px;"/>
+                <asp:GridView ID="EntryList" runat="server"></asp:GridView>
             </div>
         </div>
     </div>

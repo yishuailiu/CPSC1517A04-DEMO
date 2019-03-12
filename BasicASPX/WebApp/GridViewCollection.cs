@@ -18,7 +18,7 @@ namespace WebApp
             Fullname = fullname;
             EmailAddress = emailaddress;
             PhoneNumber = phonenumber;
-            FullorPartTime = fullname;
+            FullorPartTime = fullorparttime;
             Jobs = jobs;
         }
         public GridViewCollection()
