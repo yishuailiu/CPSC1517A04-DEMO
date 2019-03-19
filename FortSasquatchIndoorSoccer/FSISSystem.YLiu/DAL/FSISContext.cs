@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+using FSISSystem.Yliu.Data;
 using System.Data.Entity;
-using FSISSystem.YLiu.Data;
 
 namespace FSISSystem.YLiu.DAL
 {
@@ -16,5 +17,7 @@ namespace FSISSystem.YLiu.DAL
 
         }
         public DbSet<Guardian> Guardians { get; set; }
+        public DbSet<Player> Players { get; set; }
+        public DbSet<Team> Teams { get; set; }
     }
 }

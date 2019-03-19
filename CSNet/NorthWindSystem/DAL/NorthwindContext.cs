@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-#region additional namespaces
-using System.Data.Entity;
+
+
 using NorthWindSystem.Data;
-#endregion
+using System.Data.Entity;
+
 
 //this class needs to have access to ADO.Net EntityFrameWork
 //the Nuget package EntityFramework has already be added to this project
@@ -23,7 +24,7 @@ namespace NorthWindSystem.DAL
     {
          //setup the class default constructor to supply your connection string name to the DbContext inherited class
          //base passes value to the base class of DbContext
-        public NorthwindContext() : base("NWDB")
+        public NorthwindContext():base("NWDB")
         {
 
         } 

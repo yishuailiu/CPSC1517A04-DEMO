@@ -53,17 +53,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClassLibrary1\FSISSystem.YLiu.Data.csproj">
-      <Project>{6ad616d1-b02d-4205-a5b3-19dc7f4e7b65}</Project>
-      <Name>FSISSystem.YLiu.Data</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="BLL\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ClassLibrary1\FSISSystem.YLiu.Data.csproj">
+      <Project>{6ad616d1-b02d-4205-a5b3-19dc7f4e7b65}</Project>
+      <Name>FSISSystem.YLiu.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
