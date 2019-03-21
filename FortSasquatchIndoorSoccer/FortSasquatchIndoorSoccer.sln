@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BigFootWebApp", "BigFootWeb
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSISSystem.YLiu", "FSISSystem.YLiu\FSISSystem.YLiu.csproj", "{A9337630-BB44-4E9A-AE48-8B2E8925CAF6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSISSystem.YLiu.Data", "ClassLibrary1\FSISSystem.YLiu.Data.csproj", "{6AD616D1-B02D-4205-A5B3-19DC7F4E7B65}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSISSystem.YLiu.Data", "FSISSystem.YLiu.Data\FSISSystem.YLiu.Data.csproj", "{6AD616D1-B02D-4205-A5B3-19DC7F4E7B65}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

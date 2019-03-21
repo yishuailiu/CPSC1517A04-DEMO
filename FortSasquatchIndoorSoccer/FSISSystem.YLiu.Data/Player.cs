@@ -12,18 +12,16 @@ namespace FSISSystem.Yliu.Data
     public class Player
     {
 
-        private char _Gender;
+        private string _Gender;
         private string _MedicalAlertDetails;
         [Key]
-        public int PlayerID { get; set; }
-        [ForeignKey]
-        public int GuardianID { get; set; }
-        [ForeignKey]
+        public int PlayerID { get; set; }        
+        public int GuardianID { get; set; }        
         public int TeamID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int Age { get; set; }
-        public char Gender
+        public string Gender
         {
             get
             {
@@ -31,7 +29,7 @@ namespace FSISSystem.Yliu.Data
             }
             set
             {
-                _Gender = char.ToUpper(value);
+                _Gender = value.ToUpper();
             }
         }
         public string AlbertaHealthCareNumber { get; set; }
@@ -55,4 +53,4 @@ namespace FSISSystem.Yliu.Data
     }
 
 }
-}
+

@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 
+
 #region additional namespace
 using NorthWindSystem.Data;
 using NorthWindSystem.DAL;
+using System.Data.SqlClient;
 #endregion
 
 namespace NorthWindSystem.BLL
@@ -43,6 +45,30 @@ namespace NorthWindSystem.BLL
             using (var context = new NorthwindContext())
             {
                 return context.Products.ToList();
+            }
+        }
+
+
+        //at times you will need to do a NON-PROMARY KEY lookup
+        //you will NOT be able to use .Find(pkday)
+        //you can call sql procedures via your context clas with in your BLL class method
+        //use .Database.SqlQuery<T>()  not DbSet<T>
+        //the arguments(s) for SqlQuery are         
+        //a) the sql procedure execute statement as a string
+        //b) if required, any arguments for the procedure 
+        //passing the data arguments to the procedure will make use of new .SqlParameter() object
+        //the SqlParameter object needs a using clause : System.Data.SqlClient
+        //SqlParameter takes two arguments
+        //a) procedure paramter name
+        //b) value to be passed
+        public List<Product> Product_GetByCategory(int categoryid)
+        {
+            using (var context = new NorthwindContext())
+            {
+                //normally you will find taht data from EntityFramework returns as an IEnumerable<T> datatype
+                //one can conver the Ienumerable<T> to a List<T> .ToList()
+                IEnumerable<Product> results = context.Database.SqlQuery<Product>("Products_GetByCategories @CategoryID",new SqlParameter("CategoryID",categoryid));
+                return results.ToList();
             }
         }
     }

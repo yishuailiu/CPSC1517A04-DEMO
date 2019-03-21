@@ -6,7 +6,7 @@
     <siteMapNode url="~/Contact.aspx" title="Contact"  description="" />
     
     <siteMapNode url="" title="ExercisePages"  description="" >
-      <siteMapNode url="~/ExercisePages/ExercisePage1.aspx" title="ExercisePage01" description="" />         
+      <siteMapNode url="~/ExercisePages/ExercisePage01.aspx" title="ExercisePage01" description="" />         
     </siteMapNode>
         
   </siteMapNode>

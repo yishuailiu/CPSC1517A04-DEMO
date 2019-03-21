@@ -57,6 +57,66 @@ namespace WebApp.SamplePages
 
         protected void Submit_Click(object sender, EventArgs e)
         {
+            //ensure a selection was made
+            if (CategoryList.SelectedIndex == 0)
+            {
+                //no selection: message to user
+                MessageLabel.Text = "Select something please";
+            }
+            else
+            {
+                //yes selection: process lookup
+                try
+                {
+                    //create and connect to BLL class
+                    ProductController sysmgr = new ProductController();
+                    //issue request for loop up to appropriate BLL class method and capture resultss
+                    List<Product> datainfo = sysmgr.Product_GetByCategory(int.Parse(CategoryList.SelectedValue));
+                    //check result(.Count() == 0)
+                    if (datainfo.Count() == 0)
+                    {
+                        //no records: message to user
+                        MessageLabel.Text = "no data found for select category";
+                        //you may wish to remove from the display any old data
+                        CategoryProductList.DataSource = null;
+                        CategoryProductList.DataBind();
+                    }
+                    else
+                    {
+                        //yes record: display data
+                        CategoryProductList.DataSource = datainfo;
+                        CategoryProductList.DataBind();
+                    }
+
+
+                }
+                catch (Exception ex)
+                {
+                    //error handling 
+                    MessageLabel.Text = ex.Message;
+                }          
+
+            }
+
+
+
+            //yes selection: process lookup
+
+            //error handling 
+
+            //create and connect to BLL class
+
+            //issue request for loop up to appropriate BLL class method and capture resultss
+            //check result(.Count() == 0)
+            //no records: message to user
+            //yes record: display data
+        }
+
+        protected void Clear_Click(object sender, EventArgs e)
+        {
+            CategoryList.ClearSelection();
+            CategoryProductList.DataSource = null;
+            CategoryProductList.DataBind();
 
         }
     }

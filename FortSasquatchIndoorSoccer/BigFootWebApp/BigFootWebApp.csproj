@@ -147,7 +147,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Default.aspx" />
-    <Content Include="ExercisePages\ExercisePage1.aspx" />
+    <Content Include="ExercisePages\ExercisePage01.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -223,12 +223,12 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="ExercisePages\ExercisePage1.aspx.cs">
-      <DependentUpon>ExercisePage1.aspx</DependentUpon>
+    <Compile Include="ExercisePages\ExercisePage01.aspx.cs">
+      <DependentUpon>ExercisePage01.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="ExercisePages\ExercisePage1.aspx.designer.cs">
-      <DependentUpon>ExercisePage1.aspx</DependentUpon>
+    <Compile Include="ExercisePages\ExercisePage01.aspx.designer.cs">
+      <DependentUpon>ExercisePage01.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -271,7 +271,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClassLibrary1\FSISSystem.YLiu.Data.csproj">
+    <ProjectReference Include="..\FSISSystem.YLiu.Data\FSISSystem.YLiu.Data.csproj">
       <Project>{6ad616d1-b02d-4205-a5b3-19dc7f4e7b65}</Project>
       <Name>FSISSystem.YLiu.Data</Name>
     </ProjectReference>

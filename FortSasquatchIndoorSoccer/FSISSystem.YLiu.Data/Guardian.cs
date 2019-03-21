@@ -16,7 +16,7 @@ namespace FSISSystem.Yliu.Data
         public int GuardianID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public int EmergencyPhoneNumber { get; set; }
+        public string EmergencyPhoneNumber { get; set; }
         public string EmailAddress { get; set; }
         [NotMapped]
         public string FullName

@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace BigFootWebApp.ExercisePages
 {
-    public partial class ExercisePage1 : System.Web.UI.Page
+    public partial class ExercisePage01 : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
