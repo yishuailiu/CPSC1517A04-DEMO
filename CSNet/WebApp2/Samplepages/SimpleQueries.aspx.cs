@@ -11,7 +11,7 @@ namespace WebApp2.Samplepages
 {
     public partial class SimpleQueries : System.Web.UI.Page
     {
-        private int productid;
+        
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -20,41 +20,52 @@ namespace WebApp2.Samplepages
 
         protected void Submit_Click(object sender, EventArgs e)
         {
+            int productid = 0;
             //validate your input
-            //bad : messsage to ser
-            //good : standard look up pattern and display 
             if (string.IsNullOrEmpty(SearchArg.Text.Trim()))
             {
-                MessageLabel.Text = "Enter something";
+                //bad :message to user
+                MessageLabel.Text = "Product ID is required";
             }
-            else if (int.TryParse(SearchArg.Text,out productid))
+            else if (int.TryParse(SearchArg.Text, out productid))
             {
-                //since we are leaving this project(webapp) and going to another project (BLL) user friendly error handling is required
+                //good: Standard Lookup pattern and display
+                //since we are leaving this project (webapp)
+                //   and going to another project (BLL)
+                //   user friendly error handling is required
                 try
                 {
-                    //create an instance of the appropriate BLL class
+                    //create an instance of the appropriate
+                    //   BLL class
                     ProductController sysmgr = new ProductController();
                     //issue your request to the appropriate BLL class
-                    //method
-                    Product result = sysmgr.Product_Get(int.Parse(SearchArg.Text));
+                    //   method
+                    Product results = sysmgr.Product_Get(int.Parse(SearchArg.Text));
                     //test results to see if anything was found
-                    //null; product id not foud
-                    //otherwise Product instance exists
-                    if (result == null)
+                    //null: product id not found
+                    //otherwise: Product instance exists
+                    if (results == null)
                     {
+                        //bad: message to user
                         MessageLabel.Text = "No data found for supplied id";
                     }
                     else
                     {
-                        ProductID.Text = result.ProductID.ToString();
-                        ProductName.Text = result.ProductName;
+                        //good: found
+                        ProductID.Text = results.ProductID.ToString();
+                        ProductName.Text = results.ProductName;
                     }
                 }
                 catch (Exception ex)
                 {
-
                     MessageLabel.Text = ex.Message;
                 }
+
+            }
+            else
+            {
+                //bad :message to user
+                MessageLabel.Text = "Product ID must be a number greater than 0";
             }
         }
 
