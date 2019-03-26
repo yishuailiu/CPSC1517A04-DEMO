@@ -119,5 +119,43 @@ namespace WebApp.SamplePages
             CategoryProductList.DataBind();
 
         }
+
+        protected void CategoryProductList_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            //the developer must code this event method they install paging
+            //a) set the control's PageInde property to the data"page" of the data collection
+            // the new pageindex is located in the e parameter of this method
+            CategoryProductList.PageIndex = e.NewPageIndex;
+            //b) refresh the data collection for the control,re issue the call to the databse for data assign data results to control
+            Submit_Click(sender, new EventArgs());
+            //CategoryProductList.DataBind();
+        }
+
+        protected void CategoryProductList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //access the data on the grid view selected row
+            //the rows of a gridview are in a collection referenced by .Rows
+            //the row index of the selected gridvew row can be referenced by .SelectedIndex
+            //personal style: short form to GridViewRow pointer
+            GridViewRow agvrow = CategoryProductList.Rows[CategoryProductList.SelectedIndex];
+
+            //accessing the data on a gridview cell is dependent on how the cell was setup.
+            //we are using a templetes with a web control inside the ItemTemplate
+            //syntax: 
+            // (agrvow.FindControl("controlID") as controltype).controltypeaccess
+            string productid = (agvrow.FindControl("ProductID") as Label).Text;
+            string productname = (agvrow.FindControl("ProductName") as Label).Text;
+            //string productuis = (agvrow.FindControl("UnitInStock") as Label).Text;
+            string discontinued = "";
+            if ((agvrow.FindControl("Discontinued")as CheckBox).Checked)
+            {
+                discontinued = "discontinued";
+            }
+            else
+            {
+                discontinued = "available";
+            }
+            MessageLabel.Text = productname + " (" + productid + ") is "+ discontinued; 
+        }
     }
 }
