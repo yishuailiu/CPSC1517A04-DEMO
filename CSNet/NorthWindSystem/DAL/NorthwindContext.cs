@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 
 
-using NorthWindSystem.Data;
+
 using System.Data.Entity;
+using NorthwindSystem.Data;
+using NorthWindSystem.Data;
+
 
 
 //this class needs to have access to ADO.Net EntityFrameWork
@@ -32,5 +35,8 @@ namespace NorthWindSystem.DAL
         //<T> is your class the .Data project
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Region> Regions { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<Territory> Territories { get; set; }
     }
 }
