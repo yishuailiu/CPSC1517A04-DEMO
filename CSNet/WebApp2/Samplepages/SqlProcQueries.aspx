@@ -60,6 +60,9 @@
                             </asp:TemplateField>
                             <asp:CommandField SelectText="View" ShowSelectButton="True" />
                         </Columns>
+                        <EmptyDataTemplate >
+                            No product on file for given category.
+                        </EmptyDataTemplate>
                         <PagerSettings FirstPageText="Start" LastPageText="end" Mode="NumericFirstLast" PageButtonCount="3" />
                     </asp:GridView>
                 </td>

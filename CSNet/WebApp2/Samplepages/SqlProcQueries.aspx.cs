@@ -78,7 +78,11 @@ namespace WebApp.SamplePages
                         //no records: message to user
                         MessageLabel.Text = "no data found for select category";
                         //you may wish to remove from the display any old data
-                        CategoryProductList.DataSource = null;
+                        //CategoryProductList.DataSource = null;
+                        //CategoryProductList.DataBind();
+
+                        //if you have an emptydatatemplate on the gridview and your data source is empty of record(data source physically exists)
+                        CategoryProductList.DataSource = datainfo;
                         CategoryProductList.DataBind();
                     }
                     else

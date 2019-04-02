@@ -125,5 +125,33 @@ namespace NorthWindSystem.BLL
                 return results.ToList();
             }
         }
+
+        //add update and delete
+        //the add method will be used insert a product instance into the database
+        //this method will receive an instance of product
+        //this method can optionally return the new identity primary key
+        public int Product_Add(Product item) {
+            using (var context = new NorthwindContext())
+            {
+                //step 1:stating
+                //one adds the new instance to the appropriate DBSet<T>
+                //the data needs to be in an instance of <T>
+                //staging does not place the record on the database
+                //if the primary key of the <T> is an identity type
+                //the pkey value is NOT yet set
+                context.Products.Add(item);
+
+                //stpe2: committing transaction,
+                // if the command to save your DBSet changes is not executed. the transaction fails and a RollBack is proformed.
+                //if the command to save your DBSet changes is executed and fils the transaction is RollBacked and the appropriate error message is issued
+                //at this point ANY entity validation is executed
+                //if the command to save your DBSet changes is successful then the data is in the database(unlesss the database finds an exception)
+                //at this point your new identity pkey value is present in your <T> intance and can be retrived
+                context.SaveChanges();
+
+                return item.ProductID;
+            }
+        }
+
     }
 }
