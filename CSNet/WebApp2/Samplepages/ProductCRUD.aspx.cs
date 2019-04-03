@@ -120,12 +120,50 @@ namespace WebApp.NorthwindPages
 
         protected void Search_Click(object sender, EventArgs e)
         {
+            if (ProductList.SelectedIndex == 0)
+            {
+                errormsgs.Add("select a product");
+                LoadMessageDisplay(errormsgs, "alert alert-info");
+            }
+            else
+            {
+                try
+                {
+                    ProductController sysmgr = new ProductController();
+                    Product result = sysmgr.Product_Get(int.Parse(ProductList.SelectedValue));
+                    ProductID.Text = result.ProductID.ToString();
+                    ProductName.Text = result.ProductName;
+                    SupplierList.SelectedValue = result.SupplierID.ToString();
+                    CategoryList.SelectedValue = result.CategoryID.ToString();
+                    QuantityPerUnit.Text = result.QuantityPerUnit.ToString();
+                    UnitPrice.Text = result.UnitPrice.ToString();
+                    UnitsInStock.Text = result.UnitsInStock.ToString();
+                    UnitsOnOrder.Text = result.UnitsOnOrder.ToString();
+                    ReorderLevel.Text = result.ReorderLevel.ToString();
+                    Discontinued.Checked = result.Discontinued;
+                }
+                catch (Exception ex)
+                {
+                    errormsgs.Add(GetInnerException(ex).Message);
+                    LoadMessageDisplay(errormsgs, "alert alert-danger");
+                    
+                }            
 
+            }
         }
 
         protected void Clear_Click(object sender, EventArgs e)
         {
-
+            ProductID.Text = "";
+            ProductName.Text = "";
+            SupplierList.SelectedIndex = 0;
+            CategoryList.SelectedIndex = 0;
+            QuantityPerUnit.Text = "";
+            UnitPrice.Text = "";
+            UnitsInStock.Text = "";
+            UnitsOnOrder.Text = "";
+            ReorderLevel.Text = "";
+            Discontinued.Checked = false;
         }
 
         protected void AddProduct_Click(object sender, EventArgs e)
