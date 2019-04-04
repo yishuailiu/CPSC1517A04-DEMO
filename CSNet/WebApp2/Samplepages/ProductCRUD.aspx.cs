@@ -164,6 +164,8 @@ namespace WebApp.NorthwindPages
             UnitsOnOrder.Text = "";
             ReorderLevel.Text = "";
             Discontinued.Checked = false;
+            Message.DataSource = null;
+            Message.DataBind();
         }
 
         protected void AddProduct_Click(object sender, EventArgs e)
@@ -235,6 +237,12 @@ namespace WebApp.NorthwindPages
                     int newProductID = sysmgr.Product_Add(item);
                     errormsgs.Add(ProductName.Text + " has been added to database with id of" + newProductID.ToString());
                     LoadMessageDisplay(errormsgs, "alert alert-successs");
+
+                    //refresh of the web page/web controls
+                    //display the new product id in its field
+                    ProductID.Text = newProductID.ToString();
+                    BindProductList();
+                    ProductList.SelectedValue = ProductID.Text;
                 }
                 catch (DbUpdateException ex)
                 {
@@ -275,12 +283,209 @@ namespace WebApp.NorthwindPages
 
         protected void UpdateProduct_Click(object sender, EventArgs e)
         {
+            //execute your form validation
+            //if (Page.IsValid)
+            //{
+            //any logic validation on covered by form validation, for this example ,we assume thatthe category ID and supplier ID are needed
+            if (SupplierList.SelectedIndex == 0)
+            {
+                errormsgs.Add("Select a supplier");
+            }
+            if (CategoryList.SelectedIndex == 0)
+            {
+                errormsgs.Add("select a category");
+            }
+            //on the update you must insure that the records's pkey value is present
+            if (string.IsNullOrEmpty(ProductID.Text.Trim()))
+            {
+                errormsgs.Add("Pleaes select a product first.");
+            }
 
+            if (errormsgs.Count() > 0)
+            {
+                LoadMessageDisplay(errormsgs, "alert alert-info");
+            }
+            else
+            {
+                //create an instance of <T>
+                //extract data from ofrm and load <T>
+                //DbConnectionInfo to appropriate BLL class
+                //issue a call to the appropriate BLL method passing the intance of <T>
+                //handle the results
+                try
+                {
+                    Product item = new Product();
+                    item.ProductID = int.Parse(ProductID.Text.Trim());
+                    item.ProductName = ProductName.Text;
+                    item.SupplierID = int.Parse(SupplierList.SelectedValue);
+                    item.CategoryID = int.Parse(SupplierList.SelectedValue);
+                    item.QuantityPerUnit = string.IsNullOrEmpty(QuantityPerUnit.Text.Trim()) ? null : QuantityPerUnit.Text;
+                    if (string.IsNullOrEmpty(UnitPrice.Text.Trim()))
+                    {
+                        item.UnitPrice = null;
+                    }
+                    else
+                    {
+                        item.UnitPrice = decimal.Parse(UnitPrice.Text.Trim());
+                    }
+                    if (string.IsNullOrEmpty(UnitsInStock.Text.Trim()))
+                    {
+                        item.UnitsInStock = null;
+                    }
+                    else
+                    {
+                        item.UnitsInStock = Int16.Parse(UnitsInStock.Text.Trim());
+                    }
+                    if (string.IsNullOrEmpty(UnitsOnOrder.Text.Trim()))
+                    {
+                        item.UnitsOnOrder = null;
+                    }
+                    else
+                    {
+                        item.UnitsOnOrder = Int16.Parse(UnitsOnOrder.Text.Trim());
+                    }
+                    if (string.IsNullOrEmpty(ReorderLevel.Text.Trim()))
+                    {
+                        item.ReorderLevel = null;
+                    }
+                    else
+                    {
+                        item.ReorderLevel = Int16.Parse(ReorderLevel.Text.Trim());
+                    }
+                    //on update, take tha value from control
+                    item.Discontinued = Discontinued.Checked;
+                    ProductController sysmgr = new ProductController();
+                    int rowsAffected = sysmgr.Product_Update(item);
+                    if (rowsAffected ==0)
+                    {
+                        errormsgs.Add(ProductName.Text + " has not been updated , rows affected is " + rowsAffected.ToString());
+                        LoadMessageDisplay(errormsgs, "alert alert-danger");
+                        //consider refreshing the necessary controls on your form
+                        BindProductList();
+                        ProductID.Text = "";
+                    }
+                    else
+                    {
+                        errormsgs.Add(ProductName.Text + " has been updated, rows affected is" + rowsAffected.ToString());
+                        LoadMessageDisplay(errormsgs, "alert alert-successs");
+                        BindProductList();
+                        ProductList.SelectedValue = ProductID.Text;
+                    }                    
+                    
+                }
+                catch (DbUpdateException ex)
+                {
+                    UpdateException updateException = (UpdateException)ex.InnerException;
+                    if (updateException.InnerException != null)
+                    {
+                        errormsgs.Add(updateException.InnerException.Message.ToString());
+                    }
+                    else
+                    {
+                        errormsgs.Add(updateException.Message);
+                    }
+                    LoadMessageDisplay(errormsgs, "alert alert-danger");
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    foreach (var entityValidationErrors in ex.EntityValidationErrors)
+                    {
+                        foreach (var validationError in entityValidationErrors.ValidationErrors)
+                        {
+                            errormsgs.Add(validationError.ErrorMessage);
+                        }
+                    }
+                    LoadMessageDisplay(errormsgs, "alert alert-danger");
+                }
+                catch (Exception ex)
+                {
+                    errormsgs.Add(GetInnerException(ex).ToString());
+                    LoadMessageDisplay(errormsgs, "alert alert-danger");
+                }
+
+
+            }
         }
 
         protected void RemoveProduct_Click(object sender, EventArgs e)
         {
+            
+            //on the update you must insure that the records's pkey value is present
+            if (string.IsNullOrEmpty(ProductID.Text.Trim()))
+            {
+                errormsgs.Add("Pleaes select a product first.");
+            }
 
+            if (errormsgs.Count() > 0)
+            {
+                LoadMessageDisplay(errormsgs, "alert alert-info");
+            }
+            else
+            {
+                //create an instance of <T>
+                //extract data from ofrm and load <T>
+                //DbConnectionInfo to appropriate BLL class
+                //issue a call to the appropriate BLL method passing the intance of <T>
+                //handle the results
+                try
+                {                  
+                    
+                    ProductController sysmgr = new ProductController();
+                    int rowsAffected = sysmgr.Product_Delete(int.Parse(ProductID.Text.Trim()));
+                    if (rowsAffected == 0)
+                    {
+                        errormsgs.Add(ProductName.Text + " has not been discontinued , rows affected is " + rowsAffected.ToString());
+                        LoadMessageDisplay(errormsgs, "alert alert-danger");
+                        //consider refreshing the necessary controls on your form
+                        BindProductList();
+                        ProductID.Text = "";
+                    }
+                    else
+                    {
+                        errormsgs.Add(ProductName.Text + " has been discontinued, rows affected is" + rowsAffected.ToString());
+                        LoadMessageDisplay(errormsgs, "alert alert-successs");
+                        //physical option
+                        //Clear_Click(sender, new EventArgs());
+                        //ProductID.Text = "";
+                        BindProductList();
+                        //refresh ofrm controls to indicate removal
+                        Discontinued.Checked = true;
+                        ProductList.SelectedValue = ProductID.Text;
+                    }
+
+                }
+                catch (DbUpdateException ex)
+                {
+                    UpdateException updateException = (UpdateException)ex.InnerException;
+                    if (updateException.InnerException != null)
+                    {
+                        errormsgs.Add(updateException.InnerException.Message.ToString());
+                    }
+                    else
+                    {
+                        errormsgs.Add(updateException.Message);
+                    }
+                    LoadMessageDisplay(errormsgs, "alert alert-danger");
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    foreach (var entityValidationErrors in ex.EntityValidationErrors)
+                    {
+                        foreach (var validationError in entityValidationErrors.ValidationErrors)
+                        {
+                            errormsgs.Add(validationError.ErrorMessage);
+                        }
+                    }
+                    LoadMessageDisplay(errormsgs, "alert alert-danger");
+                }
+                catch (Exception ex)
+                {
+                    errormsgs.Add(GetInnerException(ex).ToString());
+                    LoadMessageDisplay(errormsgs, "alert alert-danger");
+                }
+
+
+            }
         }
     }
 }

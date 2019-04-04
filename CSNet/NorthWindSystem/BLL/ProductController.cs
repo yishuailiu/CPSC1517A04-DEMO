@@ -19,6 +19,7 @@ namespace NorthWindSystem.BLL
     //naming standard is <T>Controller which represents a particular data class (sql table)
     public class ProductController
     {
+        #region queries
         //code methods which will be called for processing 
         //methods will be public
         //these methods are referred to as the system interface
@@ -125,7 +126,7 @@ namespace NorthWindSystem.BLL
                 return results.ToList();
             }
         }
-
+        #endregion
         //add update and delete
         //the add method will be used insert a product instance into the database
         //this method will receive an instance of product
@@ -152,6 +153,59 @@ namespace NorthWindSystem.BLL
                 return item.ProductID;
             }
         }
+        //update, this logic will maintain the entire database record when updating
+        //the results of the commit will return the number of rows affected
+        //input: an instance of your <T> , with the pkey value included
+        //output : rows affected
 
+        public int Product_Update(Product item)
+        {
+            using (var context = new NorthwindContext())
+            {
+                //staging
+                //the entire record will be staged
+                //optionally
+                //there may be additional attributes on your record that track when updates are done and / or track who did the updates
+                //these attributes are filled by the logic in this control and SHOULD NOT be expected form the user
+                //item.LastModified = DateTime.Now;
+                context.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                //commit 
+                //this will return the number of rows affected
+                return context.SaveChanges();
+            }
+        }
+        public int Product_Delete(int productid)
+        {
+            using (var context = new NorthwindContext())
+            {
+                //delete has two ways
+                // pysical delete, physical removal of the record from the database
+                // logical delete, usually some record attribute is set to indicate that this record should be ignored
+                //input : the pkey value of the record
+                // output : rows affected
+                // physical delete
+                #region physical delete
+                //staging
+                //find the record to remove, stage record for removal and then commit
+                //var existing = context.Products.Find(productid);
+                //context.Products.Remove(existing);
+                //return context.SaveChanges();
+                #endregion
+
+                #region logical delete
+                //this action will actually be an update
+                //any attributes that are required for tracking needto be handled
+                //the attributes that indicates the record is logically removed needs to be hanlded
+                //find record to be "deleted"
+                var existing = context.Products.Find(productid);
+                //existing.LastModified = DateTime.Now;
+                existing.Discontinued = true;
+                //stage for update
+                context.Entry(existing).State = System.Data.Entity.EntityState.Modified;
+                //commit
+                return context.SaveChanges();
+                #endregion
+            }
+        }
     }
 }
