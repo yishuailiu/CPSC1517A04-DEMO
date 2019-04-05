@@ -23,7 +23,7 @@
             </tr>
             <tr>
                 <td align="center">
-                    <asp:GridView ID="CategoryProductList" runat="server" AutoGenerateColumns="False" CellPadding="5" CellSpacing="5" GridLines="Horizontal" BorderStyle="None" AllowPaging="True" OnPageIndexChanging="CategoryProductList_PageIndexChanging" PageSize="3" OnSelectedIndexChanged="CategoryProductList_SelectedIndexChanged">
+                    <asp:GridView ID="CategoryProductList" runat="server" AutoGenerateColumns="False" cssClass="table table-responsive table-stripped table-hover"  BorderStyle="None" AllowPaging="True" OnPageIndexChanging="CategoryProductList_PageIndexChanging" PageSize="3" OnSelectedIndexChanged="CategoryProductList_SelectedIndexChanged">
                         <AlternatingRowStyle BackColor="#99FF66"  />
                         <Columns>
                             <asp:TemplateField InsertVisible="False">
