@@ -10,10 +10,12 @@ using System.Threading.Tasks;
 using NorthWindSystem.Data;
 using NorthWindSystem.DAL;
 using System.Data.SqlClient;
+using System.ComponentModel;//need to expose classes and method for ODS dialogs
 #endregion
 
 namespace NorthWindSystem.BLL
 {
+    [DataObject]
     //this class will be called from an external source
     //in our example, this source will be the web page
     //naming standard is <T>Controller which represents a particular data class (sql table)
@@ -62,6 +64,7 @@ namespace NorthWindSystem.BLL
         //SqlParameter takes two arguments
         //a) procedure paramter name
         //b) value to be passed
+        [DataObjectMethod(DataObjectMethodType.Select, false)]
         public List<Product> Product_GetByCategory(int categoryid)
         {
             using (var context = new NorthwindContext())

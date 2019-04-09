@@ -165,6 +165,7 @@
     </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Samplepages\FilterSearches.aspx" />
+    <Content Include="Samplepages\MultiRecordODS.aspx" />
     <Content Include="Samplepages\ProductCRUD.aspx" />
     <Content Include="Samplepages\SimpleQueries.aspx" />
     <Content Include="Samplepages\SqlProcQueries.aspx" />
@@ -238,6 +239,13 @@
     </Compile>
     <Compile Include="Samplepages\FilterSearches.aspx.designer.cs">
       <DependentUpon>FilterSearches.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Samplepages\MultiRecordODS.aspx.cs">
+      <DependentUpon>MultiRecordODS.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Samplepages\MultiRecordODS.aspx.designer.cs">
+      <DependentUpon>MultiRecordODS.aspx</DependentUpon>
     </Compile>
     <Compile Include="Samplepages\ProductCRUD.aspx.cs">
       <DependentUpon>ProductCRUD.aspx</DependentUpon>

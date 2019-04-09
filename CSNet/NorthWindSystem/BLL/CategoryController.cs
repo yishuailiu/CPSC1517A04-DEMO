@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 using NorthWindSystem.Data; //obtains the <T> devinitions
 using NorthWindSystem.DAL;  //obtains the context class
 #endregion
-
+using System.ComponentModel;//need to expose classes and method for ODS dialogs
 namespace NorthWindSystem.BLL
+
 {
+    [DataObject]
     public class CategoryController
     {
         public Category Category_Get(int categoryid)
@@ -20,7 +22,7 @@ namespace NorthWindSystem.BLL
                 return context.Categories.Find(categoryid);
             }
         }
-
+        [DataObjectMethod(DataObjectMethodType.Select,false)]
         public List<Category> Category_List()
         {
             using (var context = new NorthwindContext())
